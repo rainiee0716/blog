@@ -3,82 +3,150 @@ import { SITE_TITLE } from '../consts';
 import HeaderLink from './HeaderLink.astro';
 ---
 
-<header>
-	<nav>
-		<h2><a href="/">{SITE_TITLE}</a></h2>
+<header class="site-header">
+	<nav class="nav">
+		<div class="brand">
+			<a class="logo" href="/">{SITE_TITLE}</a>
+			<span class="tagline">职业成长 · AI 习惯</span>
+		</div>
 		<div class="internal-links">
-			<HeaderLink href="/">Home</HeaderLink>
-			<HeaderLink href="/blog">Blog</HeaderLink>
-			<HeaderLink href="/about">About</HeaderLink>
-			<HeaderLink href="/privacy">Privacy</HeaderLink>
+			<HeaderLink href="/">首页</HeaderLink>
+			<HeaderLink href="/blog">文章</HeaderLink>
+			<HeaderLink href="/about">关于</HeaderLink>
+			<HeaderLink href="/privacy">隐私</HeaderLink>
 		</div>
 		<div class="social-links">
-			<a href="https://m.webtoo.ls/@astro" target="_blank">
-				<span class="sr-only">Follow Astro on Mastodon</span>
-				<svg viewBox="0 0 16 16" aria-hidden="true" width="32" height="32"
-					><path
+			<a class="icon-link" href="mailto:rainiee@gmail.com" aria-label="Email">
+				<span class="sr-only">Email</span>
+				<svg viewBox="0 0 24 24" aria-hidden="true" width="20" height="20">
+					<path
 						fill="currentColor"
-						d="M11.19 12.195c2.016-.24 3.77-1.475 3.99-2.603.348-1.778.32-4.339.32-4.339 0-3.47-2.286-4.488-2.286-4.488C12.062.238 10.083.017 8.027 0h-.05C5.92.017 3.942.238 2.79.765c0 0-2.285 1.017-2.285 4.488l-.002.662c-.004.64-.007 1.35.011 2.091.083 3.394.626 6.74 3.78 7.57 1.454.383 2.703.463 3.709.408 1.823-.1 2.847-.647 2.847-.647l-.06-1.317s-1.303.41-2.767.36c-1.45-.05-2.98-.156-3.215-1.928a3.614 3.614 0 0 1-.033-.496s1.424.346 3.228.428c1.103.05 2.137-.064 3.188-.189zm1.613-2.47H11.13v-4.08c0-.859-.364-1.295-1.091-1.295-.804 0-1.207.517-1.207 1.541v2.233H7.168V5.89c0-1.024-.403-1.541-1.207-1.541-.727 0-1.091.436-1.091 1.296v4.079H3.197V5.522c0-.859.22-1.541.66-2.046.456-.505 1.052-.764 1.793-.764.856 0 1.504.328 1.933.983L8 4.39l.417-.695c.429-.655 1.077-.983 1.934-.983.74 0 1.336.259 1.791.764.442.505.661 1.187.661 2.046v4.203z"
-					></path></svg
-				>
+						d="M4 5h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2zm0 2v.2l8 4.8 8-4.8V7H4zm16 10V9.3l-7.47 4.48a1 1 0 0 1-1.06 0L4 9.3V17h16z"
+					></path>
+				</svg>
 			</a>
-			<a href="https://twitter.com/astrodotbuild" target="_blank">
-				<span class="sr-only">Follow Astro on Twitter</span>
-				<svg viewBox="0 0 16 16" aria-hidden="true" width="32" height="32"
-					><path
+			<a
+				class="icon-link"
+				href="https://twitter.com/rainee0716"
+				target="_blank"
+				rel="noreferrer"
+				aria-label="Twitter"
+			>
+				<span class="sr-only">Twitter</span>
+				<svg viewBox="0 0 24 24" aria-hidden="true" width="20" height="20">
+					<path
 						fill="currentColor"
-						d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"
-					></path></svg
-				>
-			</a>
-			<a href="https://github.com/withastro/astro" target="_blank">
-				<span class="sr-only">Go to Astro's GitHub repo</span>
-				<svg viewBox="0 0 16 16" aria-hidden="true" width="32" height="32"
-					><path
-						fill="currentColor"
-						d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"
-					></path></svg
-				>
+						d="M19.5 7.5c.01.14.01.29.01.44 0 4.5-3.43 9.7-9.7 9.7-1.93 0-3.72-.56-5.23-1.52.27.03.54.04.82.04 1.6 0 3.07-.55 4.25-1.46a3.42 3.42 0 0 1-3.19-2.38c.2.03.4.05.62.05.3 0 .6-.04.88-.12a3.42 3.42 0 0 1-2.74-3.35v-.04c.46.26.99.42 1.56.44a3.42 3.42 0 0 1-1.06-4.56 9.72 9.72 0 0 0 7.06 3.58 3.86 3.86 0 0 1-.09-.78 3.42 3.42 0 0 1 5.91-2.34 6.73 6.73 0 0 0 2.17-.83 3.41 3.41 0 0 1-1.5 1.89 6.78 6.78 0 0 0 1.96-.53 7.35 7.35 0 0 1-1.7 1.77z"
+					></path>
+				</svg>
 			</a>
 		</div>
 	</nav>
 </header>
+
 <style>
-	header {
-		margin: 0;
-		padding: 0 1em;
-		background: white;
-		box-shadow: 0 2px 8px rgba(var(--black), 5%);
-	}
-	h2 {
-		margin: 0;
-		font-size: 1em;
+	.site-header {
+		position: sticky;
+		top: 0;
+		z-index: 10;
+		background: rgba(255, 255, 255, 0.85);
+		backdrop-filter: blur(14px);
+		border-bottom: 1px solid var(--border);
 	}
 
-	h2 a,
-	h2 a.active {
-		text-decoration: none;
-	}
-	nav {
+	.nav {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+		gap: 1.5rem;
+		margin: 0 auto;
+		padding: 0.8rem 1.4rem;
+		width: min(var(--page-max), 100%);
 	}
-	nav a {
-		padding: 1em 0.5em;
-		color: var(--black);
-		border-bottom: 4px solid transparent;
-		text-decoration: none;
+
+	.brand {
+		display: flex;
+		flex-direction: column;
+		gap: 0.25rem;
 	}
-	nav a.active {
-		text-decoration: none;
-		border-bottom-color: var(--accent);
+
+	.logo {
+		font-size: 1.1rem;
+		font-weight: 700;
+		color: var(--accent-strong);
 	}
+
+	.tagline {
+		font-size: 0.75rem;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		color: rgb(var(--ink-soft));
+	}
+
+	.internal-links {
+		display: flex;
+		align-items: center;
+		gap: 0.9rem;
+	}
+
+	.internal-links a {
+		padding: 0.4rem 0.6rem;
+		border-radius: 999px;
+		color: rgb(var(--ink));
+		font-weight: 600;
+		transition: background 0.2s var(--ease-out), color 0.2s var(--ease-out);
+	}
+
+	.internal-links a.active {
+		background: rgba(15, 118, 110, 0.12);
+		color: var(--accent-strong);
+	}
+
 	.social-links,
 	.social-links a {
 		display: flex;
+		align-items: center;
+		gap: 0.8rem;
+		color: rgb(var(--ink-soft));
 	}
+
+	.icon-link {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 34px;
+		height: 34px;
+		border-radius: 999px;
+		border: 1px solid transparent;
+		color: rgb(var(--ink-soft));
+		transition:
+			color 0.2s var(--ease-out),
+			background 0.2s var(--ease-out),
+			border-color 0.2s var(--ease-out);
+	}
+
+	.icon-link:hover {
+		color: var(--accent-strong);
+		background: rgba(15, 118, 110, 0.08);
+		border-color: rgba(15, 118, 110, 0.2);
+	}
+
+	@media (max-width: 900px) {
+		.nav {
+			flex-wrap: wrap;
+			justify-content: center;
+		}
+
+		.brand {
+			align-items: center;
+		}
+	}
+
 	@media (max-width: 720px) {
+		.tagline {
+			display: none;
+		}
+
 		.social-links {
 			display: none;
 		}

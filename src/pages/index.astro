@@ -6,15 +6,111 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<style>
+			.hero {
+				display: grid;
+				gap: 1.5rem;
+				padding: 2.5rem;
+				border-radius: var(--radius-lg);
+				background: rgba(var(--surface), 0.92);
+				border: 1px solid var(--border);
+				box-shadow: var(--shadow);
+			}
+			.hero-actions {
+				display: flex;
+				gap: 1rem;
+				flex-wrap: wrap;
+			}
+			.highlight-grid {
+				display: grid;
+				grid-template-columns: repeat(3, minmax(0, 1fr));
+				gap: 1.5rem;
+				margin-top: 2.5rem;
+			}
+			.highlight-grid .card h3 {
+				margin-bottom: 0.6rem;
+			}
+			.focus {
+				margin-top: 2.5rem;
+				display: grid;
+				grid-template-columns: 1.2fr 1fr;
+				gap: 1.5rem;
+			}
+			.focus-list {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 0.75rem;
+				margin-top: 1rem;
+			}
+			@media (max-width: 900px) {
+				.highlight-grid {
+					grid-template-columns: 1fr;
+				}
+				.focus {
+					grid-template-columns: 1fr;
+				}
+			}
+		</style>
 	</head>
 	<body>
 		<Header />
 		<main>
-			<h1>记录 AI 学习与职场成长</h1>
-            <p>一个程序员的长期思考与实践笔记</p>
+			<section class="hero reveal">
+				<p class="eyebrow">职场 · AI · 成长</p>
+				<h1>记录 AI 学习与职场成长的实践笔记</h1>
+				<p class="lead">
+					这里分享可直接落地的工作方法、AI 工具评估与复盘文章，帮助你在复杂环境中持续提升。
+				</p>
+				<div class="hero-actions">
+					<a class="button" href="/blog">阅读最新文章</a>
+					<a class="button button-ghost" href="/about">认识我</a>
+				</div>
+			</section>
+
+			<section class="highlight-grid">
+				<article class="card reveal" style="--delay: 80ms;">
+					<p class="chip">方法论</p>
+					<h3>把 AI 变成稳定产出，而不是一次性灵感</h3>
+					<p class="lead">系统拆解工作流，让 AI 真正进入你的日常节奏。</p>
+				</article>
+				<article class="card reveal" style="--delay: 160ms;">
+					<p class="chip">职场策略</p>
+					<h3>从执行到影响力：如何争取关键机会</h3>
+					<p class="lead">围绕目标、沟通和复盘，打造可见度与信任。</p>
+				</article>
+				<article class="card reveal" style="--delay: 240ms;">
+					<p class="chip">工具评测</p>
+					<h3>每周 AI 工具实验室</h3>
+					<p class="lead">精选真实场景，比较效果与成本。</p>
+				</article>
+			</section>
+
+			<section class="focus">
+				<div class="card reveal" style="--delay: 320ms;">
+					<h2>我在关注什么</h2>
+					<p class="lead">
+						职场思维与 AI 工具不是二选一，我更关心它们如何一起构建“可复制”的成长体系。
+					</p>
+					<div class="focus-list">
+						<span class="chip">AI 助理与自动化</span>
+						<span class="chip">职业路径设计</span>
+						<span class="chip">高效沟通</span>
+						<span class="chip">跨团队协作</span>
+						<span class="chip">个人知识库</span>
+						<span class="chip">目标与复盘</span>
+					</div>
+				</div>
+				<div class="card reveal" style="--delay: 400ms;">
+					<h2>写作原则</h2>
+					<p class="lead">
+						每篇文章都包含真实案例、可执行清单与工具模板，让你在阅读后立刻能行动。
+					</p>
+					<p>如果你喜欢这样的内容，建议从「文章」页开始挑选主题阅读。</p>
+				</div>
+			</section>
 		</main>
 		<Footer />
 	</body>

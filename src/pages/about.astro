@@ -1,15 +1,19 @@
 ---
 import AboutHeroImage from '../assets/blog-placeholder-about.jpg';
 import Layout from '../layouts/BlogPost.astro';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
 
 <Layout
-	title="关于我"
-	description="一个持续把 AI 变成生产力的实践者"
+	title={t('about.title')}
+	description={t('about.description')}
 	pubDate={new Date('2026-01-20')}
 	heroImage={AboutHeroImage}
 >
-	<p>我是一名专注效率与协作的从业者，长期关注 AI、产品化思维与职场成长。</p>
-	<p>这个博客记录我的真实实践：做过的实验、踩过的坑、复盘后的方法论。</p>
-	<p>如果你也在探索如何让 AI 进入日常工作，或者在寻找更清晰的职业路径，欢迎一起交流。</p>
+	<p>{t('about.content1')}</p>
+	<p>{t('about.content2')}</p>
+	<p>{t('about.content3')}</p>
 </Layout>

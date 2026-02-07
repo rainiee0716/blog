@@ -4,8 +4,9 @@ import BlogPost from '../../layouts/BlogPost.astro';
 
 export async function getStaticPaths() {
 	const posts = await getCollection('blog');
-	return posts.map((post) => ({
-		params: { slug: post.id },
+	const zhPosts = posts.filter((post) => post.id.startsWith('zh/'));
+	return zhPosts.map((post) => ({
+		params: { slug: post.id.replace('zh/', '') },
 		props: post,
 	}));
 }

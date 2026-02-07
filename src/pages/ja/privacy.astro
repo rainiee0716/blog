@@ -1,0 +1,13 @@
+---
+import Layout from '../../layouts/BlogPost.astro';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<Layout title={t('privacy.title')} description={t('privacy.description')} pubDate={new Date('2026-01-20')}>
+	<p>{t('privacy.content1')}</p>
+	<p>{t('privacy.content2')}</p>
+	<p>{t('privacy.content3')}</p>
+</Layout>

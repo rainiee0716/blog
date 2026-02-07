@@ -5,15 +5,18 @@ import BaseHead from "../components/BaseHead.astro";
 import Footer from "../components/Footer.astro";
 import FormattedDate from "../components/FormattedDate.astro";
 import Header from "../components/Header.astro";
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
 
 type Props = CollectionEntry<"blog">["data"];
 
 const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
-const isBlogPost = Astro.url.pathname.startsWith("/blog/");
-const eyebrow = isBlogPost ? "文章" : "页面";
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const isBlogPost = Astro.url.pathname.includes("/blog/");
+const eyebrow = isBlogPost ? t('post.eyebrow_post') : t('post.eyebrow_page');
 ---
 
-<html lang="zh-CN">
+<html lang={lang}>
 	<head>
 		<BaseHead title={title} description={description} />
 		<style>
@@ -44,6 +47,10 @@ const eyebrow = isBlogPost ? "文章" : "页面";
 			.post-hero img {
 				border-radius: var(--radius-lg);
 				box-shadow: var(--shadow);
+				width: 100%;
+				height: auto;
+				aspect-ratio: 16/9;
+				object-fit: cover;
 			}
 			.prose {
 				max-width: var(--content-max);
@@ -92,11 +99,11 @@ const eyebrow = isBlogPost ? "文章" : "页面";
 					<h1>{title}</h1>
 					<p class="lead">{description}</p>
 					<div class="post-meta">
-						<span>发布于 <FormattedDate date={pubDate} /></span>
+						<span>{t('post.published_at')} <FormattedDate date={pubDate} /></span>
 						{
 							updatedDate && (
 								<span class="updated">
-									更新于 <FormattedDate date={updatedDate} />
+									{t('post.updated_at')} <FormattedDate date={updatedDate} />
 								</span>
 							)
 						}

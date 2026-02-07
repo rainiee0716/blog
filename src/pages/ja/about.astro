@@ -1,0 +1,19 @@
+---
+import AboutHeroImage from '../../assets/blog-placeholder-about.jpg';
+import Layout from '../../layouts/BlogPost.astro';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<Layout
+	title={t('about.title')}
+	description={t('about.description')}
+	pubDate={new Date('2026-01-20')}
+	heroImage={AboutHeroImage}
+>
+	<p>{t('about.content1')}</p>
+	<p>{t('about.content2')}</p>
+	<p>{t('about.content3')}</p>
+</Layout>

@@ -1,0 +1,121 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Footer from '../../components/Footer.astro';
+import Header from '../../components/Header.astro';
+import { getLangFromUrl, useTranslations, useTranslatedPath } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
+---
+
+<!doctype html>
+<html lang={lang}>
+	<head>
+		<BaseHead title={t('site.title')} description={t('site.description')} />
+		<style>
+			.hero {
+				display: grid;
+				gap: 1.5rem;
+				padding: 2.5rem;
+				border-radius: var(--radius-lg);
+				background: rgba(var(--surface), 0.92);
+				border: 1px solid var(--border);
+				box-shadow: var(--shadow);
+			}
+			.hero-actions {
+				display: flex;
+				gap: 1rem;
+				flex-wrap: wrap;
+			}
+			.highlight-grid {
+				display: grid;
+				grid-template-columns: repeat(3, minmax(0, 1fr));
+				gap: 1.5rem;
+				margin-top: 2.5rem;
+			}
+			.highlight-grid .card h3 {
+				margin-bottom: 0.6rem;
+			}
+			.focus {
+				margin-top: 2.5rem;
+				display: grid;
+				grid-template-columns: 1.2fr 1fr;
+				gap: 1.5rem;
+			}
+			.focus-list {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 0.75rem;
+				margin-top: 1rem;
+			}
+			@media (max-width: 900px) {
+				.highlight-grid {
+					grid-template-columns: 1fr;
+				}
+				.focus {
+					grid-template-columns: 1fr;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<section class="hero reveal">
+				<p class="eyebrow">{t('home.eyebrow')}</p>
+				<h1>{t('home.hero_title')}</h1>
+				<p class="lead">
+					{t('home.hero_lead')}
+				</p>
+				<div class="hero-actions">
+					<a class="button" href={translatePath('/blog')}>{t('home.hero_cta_blog')}</a>
+					<a class="button button-ghost" href={translatePath('/about')}>{t('home.hero_cta_about')}</a>
+				</div>
+			</section>
+
+			<section class="highlight-grid">
+				<article class="card reveal" style="--delay: 80ms;">
+					<p class="chip">{t('home.card1_chip')}</p>
+					<h3>{t('home.card1_title')}</h3>
+					<p class="lead">{t('home.card1_lead')}</p>
+				</article>
+				<article class="card reveal" style="--delay: 160ms;">
+					<p class="chip">{t('home.card2_chip')}</p>
+					<h3>{t('home.card2_title')}</h3>
+					<p class="lead">{t('home.card2_lead')}</p>
+				</article>
+				<article class="card reveal" style="--delay: 240ms;">
+					<p class="chip">{t('home.card3_chip')}</p>
+					<h3>{t('home.card3_title')}</h3>
+					<p class="lead">{t('home.card3_lead')}</p>
+				</article>
+			</section>
+
+			<section class="focus">
+				<div class="card reveal" style="--delay: 320ms;">
+					<h2>{t('home.focus_title')}</h2>
+					<p class="lead">
+						{t('home.focus_lead')}
+					</p>
+					<div class="focus-list">
+						<span class="chip">{t('home.focus_item1')}</span>
+						<span class="chip">{t('home.focus_item2')}</span>
+						<span class="chip">{t('home.focus_item3')}</span>
+						<span class="chip">{t('home.focus_item4')}</span>
+						<span class="chip">{t('home.focus_item5')}</span>
+						<span class="chip">{t('home.focus_item6')}</span>
+					</div>
+				</div>
+				<div class="card reveal" style="--delay: 400ms;">
+					<h2>{t('home.principles_title')}</h2>
+					<p class="lead">
+						{t('home.principles_lead')}
+					</p>
+					<p>{t('home.principles_footer')}</p>
+				</div>
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>

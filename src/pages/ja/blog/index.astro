@@ -1,0 +1,133 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import BaseHead from '../../../components/BaseHead.astro';
+import Footer from '../../../components/Footer.astro';
+import FormattedDate from '../../../components/FormattedDate.astro';
+import Header from '../../../components/Header.astro';
+import { getLangFromUrl, useTranslations, useTranslatedPath } from '../../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
+
+const posts = (await getCollection('blog'))
+	.filter((post) => post.id.startsWith(lang + '/'))
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<!doctype html>
+<html lang={lang}>
+	<head>
+		<BaseHead title={t('site.title')} description={t('site.description')} />
+		<style>
+			.blog-hero {
+				display: flex;
+				flex-direction: column;
+				gap: 1rem;
+				margin-bottom: 2.5rem;
+			}
+			.post-grid {
+				list-style: none;
+				display: grid;
+				grid-template-columns: repeat(3, minmax(0, 1fr));
+				gap: 1.5rem;
+				margin: 0;
+				padding: 0;
+			}
+			.post-card {
+				display: flex;
+				flex-direction: column;
+				gap: 1rem;
+				background: rgba(var(--surface), 0.92);
+				border-radius: var(--radius-lg);
+				border: 1px solid var(--border);
+				padding: 1.2rem;
+				box-shadow: var(--shadow);
+				transition: transform 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out);
+			}
+			.post-card:hover {
+				transform: translateY(-4px);
+				box-shadow: 0 18px 34px rgba(15, 23, 42, 0.16);
+			}
+			.post-card img {
+				box-shadow: none;
+				width: 100%;
+				height: auto;
+				object-fit: cover;
+				aspect-ratio: 16/9;
+				border-radius: var(--radius-md);
+			}
+			.post-title {
+				margin: 0;
+				font-size: 1.3rem;
+				color: rgb(var(--ink));
+			}
+			.post-meta {
+				color: rgb(var(--ink-soft));
+				font-size: 0.9rem;
+				display: flex;
+				align-items: center;
+				gap: 0.5rem;
+			}
+			.post-category {
+				display: inline-block;
+				padding: 0.2rem 0.5rem;
+				background: rgba(var(--brand), 0.1);
+				color: rgb(var(--brand));
+				border-radius: 4px;
+				font-size: 0.8rem;
+				font-weight: 500;
+			}
+			.post-link {
+				display: flex;
+				flex-direction: column;
+				gap: 0.8rem;
+				color: inherit;
+			}
+			@media (max-width: 1000px) {
+				.post-grid {
+					grid-template-columns: repeat(2, minmax(0, 1fr));
+				}
+			}
+			@media (max-width: 720px) {
+				.post-grid {
+					grid-template-columns: 1fr;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<section class="blog-hero reveal">
+				<p class="eyebrow">{t('blog.eyebrow')}</p>
+				<h1>{t('blog.title')}</h1>
+				<p class="lead">{t('blog.description')}</p>
+			</section>
+			<section>
+				<ul class="post-grid">
+					{
+						posts.map((post, index) => (
+							<li class="post-card reveal" style={`--delay: ${index * 60}ms;`}>
+								<a class="post-link" href={translatePath(`/blog/${post.id.replace(lang + '/', '')}/`)}>
+									{post.data.heroImage && (
+										<Image width={720} height={405} src={post.data.heroImage} alt="" />
+									)}
+									<div>
+										<h3 class="post-title">{post.data.title}</h3>
+										<p class="post-meta">
+											{post.data.category && <span class="post-category">{post.data.category}</span>}
+											<FormattedDate date={post.data.pubDate} />
+										</p>
+									</div>
+								</a>
+							</li>
+						))
+					}
+				</ul>
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>

@@ -1,17 +1,22 @@
 ---
+import { getLangFromUrl, useTranslations, useTranslatedPath } from '../i18n/utils';
+
 const today = new Date();
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
 ---
 
 <footer class="site-footer">
 	<div class="footer-inner">
 		<div class="footer-brand">
-			<p class="footer-title">Rainiee｜职场与 AI 手记</p>
-			<p class="footer-copy">专注可落地的职场方法、AI 工具与成长复盘。</p>
+			<p class="footer-title">{t('site.title')}</p>
+			<p class="footer-copy">{t('site.footer_copy')}</p>
 		</div>
 		<div class="footer-links">
-			<a href="/blog">文章</a>
-			<a href="/about">关于</a>
-			<a href="/privacy">隐私</a>
+			<a href={translatePath('/blog')}>{t('nav.blog')}</a>
+			<a href={translatePath('/about')}>{t('nav.about')}</a>
+			<a href={translatePath('/privacy')}>{t('nav.privacy')}</a>
 		</div>
 		<div class="social-links">
 			<a class="icon-link" href="mailto:rainiee@gmail.com" aria-label="Email">

@@ -1,5 +1,5 @@
 ---
-title: 'OpenClaw 部署完全指南：从零��始搭建你的本地 AI 助理'
+title: 'OpenClaw 部署完全指南：从零开始搭建你的本地 AI 助理'
 description: '手把手教你如何在本地部署 OpenClaw（原 Clawdbot），包括环境准备、Docker 部署、模型配置、插件安装和常见问题排查。即使没有深厚的技术背景，也能轻松拥有属于自己的 AI 助理。'
 pubDate: 2026-04-03
 heroImage: '../../../assets/hero-clawdbot.jpg'

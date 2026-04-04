@@ -1,6 +1,6 @@
 ---
 title: 'Deep Technical Analysis of Claude Code: Inside an AI Programming Assistant'
-description: 'Through reverse engineering and technical analysis, we dive deep into Claude Code's system architecture, tool invocation mechanisms, prompt engineering, and MCP integration. Understanding these internal mechanisms helps us better use and build AI-driven development tools.'
+description: "Through reverse engineering and technical analysis, we dive deep into Claude Code's system architecture, tool invocation mechanisms, prompt engineering, and MCP integration. Understanding these internal mechanisms helps us better use and build AI-driven development tools."
 pubDate: 2026-04-03
 heroImage: '../../../assets/hero-ai-workflow.jpg'
 category: 'Technical Deep Dive'

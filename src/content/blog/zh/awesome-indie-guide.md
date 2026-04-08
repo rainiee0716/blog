@@ -52,7 +52,7 @@ category: '独立开发'
 - **Startups for the Rest of Us** — 已播出 500+ 期，专注于自筹资金创业
 - **Product People** — 产品管理和创业思维
 - **Bootstrapped.fm** — 自筹资金创业者的深度访谈
-- **IndieHackers Podcast** — 独立���客的月度收入复盘
+- **IndieHackers Podcast** — 独立黑客的月度收入复盘
 - **Mixergy** — 创业者的成功故事和失败教训
 
 ### 4. 演讲（Talks）

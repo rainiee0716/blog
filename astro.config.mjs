@@ -6,7 +6,7 @@ import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://www.rainiee.com',
+	site: 'https://www.rainiee.cn',
 	integrations: [mdx(), sitemap()],
 	i18n: {
 		defaultLocale: 'zh',

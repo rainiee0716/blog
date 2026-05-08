@@ -2,6 +2,7 @@
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
+import SearchBar from '../components/SearchBar.astro';
 import { getLangFromUrl, useTranslations, useTranslatedPath } from '../i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
@@ -57,6 +58,12 @@ const translatePath = useTranslatedPath(lang);
 					grid-template-columns: 1fr;
 				}
 			}
+
+			.search-section {
+				margin: 2rem auto;
+				padding: 0 1rem;
+				max-width: 600px;
+			}
 		</style>
 	</head>
 	<body>
@@ -72,6 +79,11 @@ const translatePath = useTranslatedPath(lang);
 					<a class="button" href={translatePath('/blog')}>{t('home.hero_cta_blog')}</a>
 					<a class="button button-ghost" href={translatePath('/about')}>{t('home.hero_cta_about')}</a>
 				</div>
+			</section>
+
+			<!-- Search Section -->
+			<section class="search-section reveal">
+				<SearchBar placeholder="Search articles, topics, and insights..." />
 			</section>
 
 			<section class="highlight-grid">

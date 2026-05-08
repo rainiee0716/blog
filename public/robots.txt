@@ -1,4 +1,35 @@
+# Allow all web robots
 User-agent: *
 Allow: /
+Crawl-delay: 1
 
+# Disallow specific paths if any
+# Disallow: /admin/
+# Disallow: /private/
+
+# Allow specific bots
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# Sitemap locations
 Sitemap: https://www.rainiee.cn/sitemap-index.xml
+Sitemap: https://www.rainiee.cn/rss.xml
+
+# Additional instructions for specific AI crawlers
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: GPTBot
+Disallow: /
+
+User-agent: CCbot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: Claude-Web
+Disallow: /

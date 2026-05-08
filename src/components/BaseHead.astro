@@ -13,11 +13,67 @@ interface Props {
 	title: string;
 	description: string;
 	image?: ImageMetadata;
+	pubDate?: Date;
+	category?: string;
+	keywords?: string[];
+	author?: string;
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
-const { title, description, image = FallbackImage } = Astro.props;
+const {
+	title,
+	description,
+	image = FallbackImage,
+	pubDate,
+	category,
+	keywords = [],
+	author = 'Rainiee'
+} = Astro.props;
+
+// Enhanced SEO metadata
+const siteName = t('site.title');
+const fullTitle = title === siteName ? siteName : `${title} | ${siteName}`;
+const currentYear = new Date().getFullYear();
+
+// Structured data for blog posts
+const isBlogPost = Astro.url.pathname.includes('/blog/');
+const structuredData = isBlogPost ? {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": title,
+  "description": description,
+  "image": new URL(image.src, Astro.url),
+  "datePublished": pubDate?.toISOString(),
+  "dateModified": pubDate?.toISOString(),
+  "author": {
+    "@type": "Person",
+    "name": author,
+    "email": "rainiee@gmail.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": siteName,
+    "logo": {
+      "@type": "ImageObject",
+      "url": "/favicon.svg"
+    }
+  }
+} : {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": siteName,
+  "url": Astro.site,
+  "description": t('site.description'),
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": `${Astro.site}/search?q={search_term_string}`
+    },
+    "query-input": "required name=search_term_string"
+  }
+};
 ---
 
 <!-- Global Metadata -->
@@ -40,25 +96,54 @@ const { title, description, image = FallbackImage } = Astro.props;
 <!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />
 
+<!-- Language and Regional -->
+<meta name="language" content={lang} />
+<meta name="geo.region" content={lang === 'zh' ? 'CN' : lang === 'ja' ? 'JP' : 'US'} />
+
 <!-- Primary Meta Tags -->
-<title>{title}</title>
-<meta name="title" content={title} />
+<title>{fullTitle}</title>
+<meta name="title" content={fullTitle} />
 <meta name="description" content={description} />
 
+<!-- Enhanced SEO Meta Tags -->
+<meta name="keywords" content={[...keywords, category, siteName, 'AI', 'productivity', 'career development'].filter(Boolean).join(', ')} />
+<meta name="author" content={author} />
+{pubDate && <meta name="article:published_time" content={pubDate.toISOString()} />}
+{category && <meta name="article:section" content={category} />}
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+
 <!-- Open Graph / Facebook -->
-<meta property="og:type" content="website" />
+<meta property="og:type" content={isBlogPost ? 'article' : 'website'} />
 <meta property="og:url" content={Astro.url} />
-<meta property="og:title" content={title} />
+<meta property="og:title" content={fullTitle} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={new URL(image.src, Astro.url)} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={title} />
+<meta property="og:site_name" content={siteName} />
+<meta property="og:locale" content={lang === 'zh' ? 'zh_CN' : lang === 'ja' ? 'ja_JP' : 'en_US'} />
+{pubDate && <meta property="article:published_time" content={pubDate.toISOString()} />}
+{category && <meta property="article:section" content={category} />}
 
 <!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image" />
 <meta property="twitter:url" content={Astro.url} />
-<meta property="twitter:title" content={title} />
+<meta property="twitter:title" content={fullTitle} />
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={new URL(image.src, Astro.url)} />
+<meta property="twitter:creator" content="@rainee0716" />
+<meta property="twitter:site" content="@rainee0716" />
 
+<!-- Additional SEO -->
+<link rel="alternate" type="application/rss+xml" title={siteName} href="/rss.xml" />
+<link rel="manifest" href="/manifest.json" />
+<meta name="theme-color" content="#0f766e" />
+
+<!-- Structured Data -->
+<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+
+<!-- Analytics and AdSense -->
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-XDK8RXWSLW"></script>
 <script is:inline>

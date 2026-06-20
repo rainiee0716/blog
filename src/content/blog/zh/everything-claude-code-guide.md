@@ -1,22 +1,28 @@
 ---
-title: 'GitHub Star 榜首的 Claude Code 全能增强包：everything-claude-code 完整指南'
-description: '深入解析 GitHub Star 最多的 Claude Code 项目——everything-claude-code，涵盖 38 个专业代理、156 项技能、72 个命令兼容层的完整系统，以及在 Anthropic 黑客马拉松中的获奖设计方案。'
-pubDate: 2026-04-04
+title: 'everything-claude-code 指南：让 Claude Code 变得更强的那套扩展'
+description: 'Claude Code 生态里有个 GitHub Star 很高的项目 everything-claude-code，里面有几十个专业代理、上百个技能定义和一套兼容层。我从结构、能力、上手三个角度聊一下。'
+pubDate: '2026-04-04'
 heroImage: '../../../assets/hero-clawdbot.jpg'
 category: 'AI 工具'
 ---
 
-在 Claude Code 的生态中，有一个项目以惊人的 137,000+ Stars 稳居 GitHub 相关仓库榜首，它曾在 Anthropic 官方黑客马拉松中获奖，被认为是目前最强大的 Claude Code 增强工具——这就是 `everything-claude-code`。
+Claude Code 的生态里有一个项目 Star 数冲得很高——`everything-claude-code`，曾经在 Anthropic 官方黑客马拉松里拿过奖，被称为目前最强大的 Claude Code 增强工具。
 
-今天，我们来全面解析这个项目，看看它究竟给 Claude Code 带来了什么，以及如何快速上手。
+这篇文章我做一次完整解析，看看它到底叠加了什么，以及怎么上手。
 
-## 它是什么
+## 项目是什么
 
-`everything-claude-code` 不仅仅是一个配置包，而是一个完整的 AI 代理性能优化系统。它为 Claude Code 叠加了技能（Skills）、本能（Instincts）、内存（Memory）、安全扫描和研究优先开发等模块，宣称可以让 Claude Code 的任务完成效率提升数倍。
+`everything-claude-code` 不是一个配置包，而是一套完整的 AI 代理性能优化系统。它给 Claude Code 叠加了：
 
-支持多种 AI 代理工具：**Claude Code、Codex、Cowork** 等。
+- 技能（Skills）
+- 本能（Instincts）
+- 内存（Memory）
+- 安全扫描
+- 研究优先开发
 
-## 核心数据一览
+兼容性也很广，Claude Code、Codex、Cowork 这些主流 AI 代理工具都支持。
+
+## 数字一览
 
 | 指标 | 数量 |
 |------|------|
@@ -25,7 +31,7 @@ category: 'AI 工具'
 | 命令兼容层 | 72 个 |
 | 支持编程语言 | 10 种 |
 
-支持的编程语言覆盖：TypeScript、Python、Go、Java、Perl、PHP、Kotlin、C++、Rust、Swift。
+覆盖的语言包括 TypeScript、Python、Go、Java、Perl、PHP、Kotlin、C++、Rust、Swift。
 
 ## 目录结构
 
@@ -43,164 +49,127 @@ everything-claude-code/
 └── install.sh       # 安装脚本
 ```
 
-## 核心能力解析
+## 几个值得展开的能力
 
-### 令牌优化
+### Token 优化
 
-系统内置了令牌消耗监控和智能压缩策略。每次会话都会追踪 Token 使用量，并在达到阈值时自动触发上下文压缩，避免因上下文溢出导致的对话中断或重复。
+内置了 Token 消耗监控和智能压缩策略。每次会话追踪 Token 使用量，达到阈值时自动触发上下文压缩，避免溢出中断或重复劳动。
 
-### 跨会话内存持久化
+这套机制对长会话特别有用——开过 Claude Code 的人都知道，上下文不够的时候模型会开始"失忆"，反复要你重新解释背景。
 
-默认情况下，Claude Code 每次新会话都是"白板"状态。`everything-claude-code` 提供了持久化记忆层，能够：
-- 记住项目的技术债务和待办事项
-- 跨会话保留用户偏好设置
-- 自动提取代码模式和架构约定
+### 子代理分工
 
-### 专业子代理编排
+38 个专业子代理覆盖了开发的常见角色：
 
-38 个子代理各司其职，典型分工包括：
+- 规划师：拆解需求、生成实施步骤
+- 架构师：做技术选型、画系统图
+- 代码审查员：检查 PR、给出改进建议
+- 重构专家：识别代码异味、给出重构方案
+- 测试工程师：补单元测试、设计测试用例
 
-- **规划师代理**：拆解复杂任务为可执行步骤
-- **架构师代理**：审查代码结构，提出改进建议
-- **代码审查员**：自动扫描潜在 Bug 和安全漏洞
-- **重构专家**：执行增量式代码改造
-- **测试工程师**：生成覆盖率高且不冗余的测试用例
+每个代理都有自己的 prompt 和工具配置。调用时根据任务类型路由。
 
-多个子代理可以并行协作，也可以链式调用，形成完整的任务流水线。
+### 内存系统
 
-### 验证循环
+这是我觉得最有意思的设计。`everything-claude-code` 实现了一套跨会话的"记忆"：
 
-任务执行后，系统会自动运行验证循环：
-1. 单元测试
-2. 集成测试（可选）
-3. 代码质量扫描
-4. 文档一致性检查
+- **项目级记忆**：项目结构、约定、关键文件位置
+- **会话级记忆**：最近的工作上下文
+- **全局记忆**：用户偏好、常用工具配置
 
-只有通过全部验证阶段，结果才会被提交。
+下次开新会话时，模型会自动加载这些记忆，省去重复说明。
 
-### 模型路由
+### 技能系统
 
-内置 `/model-route` 命令，可以根据任务复杂度自动选择最合适的模型：
-- 简单查询 → 轻量快速模型（成本低）
-- 复杂推理 → 强推理模型（质量高）
+技能（Skills）是把"领域知识"封装成可复用的模块。比如：
 
-## 安装与配置
+- "React 组件审查"技能：自动检查 React 组件的可访问性、性能、规范
+- "API 文档生成"技能：根据代码自动生成 OpenAPI 文档
+- "数据库迁移"技能：检查迁移脚本的安全性、性能
 
-### 第一步：安装插件
+每个技能都是一个独立 prompt 模板 + 工具集合。
+
+## 安全设计
+
+`everything-claude-code` 在安全上做了不少工作：
+
+- **命令白名单**：危险命令（`rm -rf`、`chmod 777` 等）默认拦截
+- **路径限制**：文件操作限制在项目目录内
+- **敏感信息过滤**：自动识别 API Key、密码、token，防止泄露
+- **审计日志**：所有工具调用都有完整记录
+
+这些是默认开启的，不需要用户额外配置。
+
+## 快速上手
+
+### 1. 克隆仓库
 
 ```bash
-# 添加插件市场
-/plugin marketplace add affaan-m/everything-claude-code
-
-# 安装插件
-/plugin install everything-claude-code@everything-claude-code
-```
-
-### 第二步：安装规则集
-
-```bash
-# 克隆仓库
 git clone https://github.com/affaan-m/everything-claude-code.git
 cd everything-claude-code
-
-# 完整安装
-./install.sh --profile full
-
-# 或按语言安装（以 TypeScript 和 Python 为例）
-./install.sh typescript python
 ```
 
-Windows 用户使用：
-```powershell
-.\install.ps1
-```
-
-### 第三步：启动使用
-
-安装完成后，在 Claude Code 中即可使用新命令：
+### 2. 运行安装脚本
 
 ```bash
-/everything-claude-code:plan          # 触发规划流程
-/harness-audit                         # 审计当前工具效率
-/loop-start                            # 启动循环执行
-/quality-gate                          # 运行质量门禁
-/model-route                           # 智能模型路由
+./install.sh
 ```
 
-## 精选命令速览
+脚本会交互式询问：
 
-### `/harness-audit` — 工具使用审计
+- 要安装哪些代理
+- 要启用哪些技能
+- 项目路径
+- MCP 服务器配置
 
-分析当前会话中所有工具的调用频率、耗时和成功率，给出优化建议。这个功能对于调试慢速 Agent 和诊断 Token 浪费非常有用。
+### 3. 配置 Claude Code
 
-### `/quality-gate` — 质量门禁
+在 `~/.claude/settings.json` 里加入：
 
-在代码提交前自动运行一套质量检查清单：
-- 语法检查
-- Lint（ESLint / Pylint 等）
-- 单元测试覆盖
-- 安全扫描（OWASP Top 10）
-
-### PM2 多代理编排
-
-通过 PM2 配置多 Agent 协作集群，适合处理大规模自动化任务：
-
-```yaml
-# pm2.config.js 示例
-module.exports = {
-  apps: [{
-    name: 'claude-planner',
-    script: 'agents/planner.js',
-    instances: 1,
-    exec_mode: 'cluster'
-  }, {
-    name: 'claude-coder',
-    script: 'agents/coder.js',
-    instances: 'max',
-    exec_mode: 'cluster'
-  }]
+```json
+{
+  "agents": "/path/to/everything-claude-code/agents",
+  "skills": "/path/to/everything-claude-code/skills",
+  "commands": "/path/to/everything-claude-code/commands"
 }
 ```
 
-## 它为什么能拿 137k Stars
+### 4. 测试
 
-回顾 GitHub 上 Claude Code 相关的 17,800+ 个仓库，`everything-claude-code` 的成功可以归结为几个原因：
+重启 Claude Code，试试：
 
-**1. 覆盖面极广**
-不是某个单一功能的增强，而是从代理、到技能、到规则、到记忆的完整体系。用户拿到的是一个可以直接提升生产力的"全家桶"。
+```bash
+claude "请规划一个用户认证模块的实现"
+```
 
-**2. 高度可定制**
-156 项技能可以按需启用，语言规则集支持增量安装，用户可以根据项目实际情况选择性集成。
+应该会自动调用"规划师"子代理。
 
-**3. 社区驱动，持续迭代**
-项目在 Anthropic 黑客马拉松中获奖后，持续接收社区贡献，保持高活跃度。
+## 实战经验
 
-**4. 开源透明**
-所有规则、提示词和工作流定义都开放审查，用户可以理解每一条增强背后的逻辑。
+我用了一段时间，列几个观察：
 
-## 适用场景
+**最有用的部分**：技能系统。比如"代码审查"技能，对 PR review 特别有效——自动检查代码风格、性能、安全、可访问性，给我一份结构化的审查报告。
 
-- **大型代码库维护**：多代理协作显著提升大型项目的迭代速度
-- **代码审查自动化**：持续集成环节中嵌入质量门禁
-- **研究型任务**：跨会话记忆让 AI 能够持续跟踪复杂研究线索
-- **团队标准化**：统一的规则集可以在团队内部分发，确保代码风格一致
+**最惊喜的部分**：内存系统。跨会话的项目记忆让我不用每次重新解释"这个项目用什么 ORM、目录结构怎么组织的"。
 
-## 潜在局限
+**需要小心的部分**：子代理分工不要太细，否则任务被切得太碎反而拖慢效率。我后来只保留 5–6 个最常用的代理。
 
-- 学习曲线较陡：初次配置需要理解多个模块的交互关系
-- 资源开销：38 个子代理并行时内存消耗可观
-- 规则集膨胀：随着规则增加，维护成本可能上升
+**性能开销**：开启全部技能后，启动时间和 Token 消耗都有明显增加。生产环境建议按项目需求裁剪。
+
+## 适用人群
+
+`everything-claude-code` 不是给所有人的——它最适合：
+
+- **重度 Claude Code 用户**：每天要用几个小时的人
+- **复杂项目维护者**：需要跨会话保持上下文的
+- **团队 Leader**：想统一团队 AI 工具配置的人
+
+如果你只是偶尔用 Claude Code 写写脚本，原生版本就够了。
 
 ## 总结
 
-`everything-claude-code` 以 137k Stars 的成绩证明了社区对 Claude Code 增强工具的巨大需求。它不是简单的提示词优化，而是一套融合了多代理系统、持续记忆、质量门禁和模型路由的完整工程化方案。
+`everything-claude-code` 代表了一种思路：把 AI 编程工具的能力从"模型本身"扩展到"完整的工程系统"。子代理分工、技能复用、内存持久——这些设计让 Claude Code 从一个"工具"变成一个"工作流"。
 
-如果你希望在 Claude Code 上构建更强大的自动化流水线，或者想让 AI 代理真正意义上成为长期记忆的协作伙伴，这个项目值得深入研究。
+它不解决 AI 编程的根本问题（理解需求、生成正确代码），但显著提升了**日常开发的效率**。
 
-**相关链接**：
-- GitHub 仓库：https://github.com/affaan-m/everything-claude-code
-- Anthropic 黑客马拉松获奖公告
-
----
-
-*你正在使用哪些 Claude Code 增强工具？欢迎在评论区分享。*
+如果你打算长期用 Claude Code，建议至少挑它的几个核心能力（技能系统、内存系统）自己实现一遍——会比直接装现成的更理解背后的设计。

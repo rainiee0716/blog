@@ -1,75 +1,64 @@
 ---
-title: 'What is Multica? The Collaboration Platform That Turns AI Agents into a Schedulable Team'
-description: 'As AI moves from "chat box" to "workflow," how do you make multiple Agents truly work together like a team — picking up tasks, collaborating, and delivering? Multica uses Issues, Squads, and Mentions to organize Agents into a functioning organization. This post walks through its core concepts and typical usage.'
+title: 'Multica: After Using It for a While, I Think I Get What They Are Doing With AI'
+description: 'Multica is not another AI chat box — it is closer to a platform where Agents actually pick up tasks, hand them off, and report back. A few notes from my own usage.'
 pubDate: '2026-06-19'
 heroImage: '../../../assets/hero-ai-workflow.jpg'
 ---
 
-If you've used ChatGPT or Claude, you probably know the feeling: a single conversation with AI can be impressive, but the moment a task gets longer, requires multiple steps, or needs different "roles" to take turns, the experience starts to fall apart. You end up manually copying and pasting intermediate results, switching between models, and remembering yourself where the last step left off.
+I have been using ChatGPT and Claude for a while, and one thing has always bugged me: a single chat with an AI is genuinely impressive, but the moment a task gets longer, has to be split into steps, or needs different "roles" to take turns, I end up doing the boring work myself — copying text between tabs, switching models, remembering where the last step left off.
 
-**Multica** exists to solve exactly this. It is not yet another chat tool — it is a collaboration platform that **organizes AI Agents into teams and drives them to deliver through project management**.
+Then I started using Multica. It is not another chat interface. It feels more like a platform where AI genuinely behaves like a teammate — picking up tasks, handing them off, reporting back. This post is a few notes from my own usage, not a product pitch.
 
-## 1. Core Idea: Treat Agents as Employees, Tasks as Tickets
+## Why I even bothered to try it
 
-Multica's design philosophy can be summed up in one line — **manage your Agents the way you manage a team**.
+A few months back I was working on a long-form review of a tool. The workflow looked like this:
 
-In traditional AI tools, you talk to the model one-on-one. In Multica, you face an "organization": there are clear tasks (Issues), dedicated Agents (employees), teams (Squads), and communication channels (Comments / Mentions). You are no longer "chatting with AI" — you are "assigning work to a team."
+1. Ask AI #1 to outline the piece.
+2. Switch to AI #2 to pull research and references.
+3. Switch back to AI #1 to draft the body.
+4. Switch to AI #3 to proofread and catch factual mistakes.
 
-That shift in perspective matters. It means you can:
+So I am bouncing between three or four tabs and manually ferrying text between them. The most painful moment was at step 4, when the proofreader flagged a factual error. I went back to the research from step 2 — and realized one of the citations was bogus, because I had not given the original sources in the first place.
 
-- Break a complex goal into sub-tasks and assign each to a different Agent;
-- Let Agents collaborate, hand off work, and review each other;
-- Step in only at key checkpoints for approval, and let the rest run on Autopilot automation.
+Multica is built for exactly this kind of mess. Instead of talking to one AI, you are working with a small team. Each Agent has its own role and tools, and you can hand off tasks between them the way you would with real people.
 
-## 2. The Four Key Concepts
+## The concepts, the way I actually use them
 
-To understand Multica, start with these four terms.
+A few notes rather than a glossary:
 
-### 1. Issue (Task)
-An Issue is where every piece of work begins — think of it as a "ticket" or a "Jira task." It has a title, description, status (todo / in_progress / in_review / done, etc.), priority, and can carry attachments and labels. Whether it's "write me a blog post," "fix the login bug," or "put together a competitor analysis," it all starts with an Issue.
+- An Issue is a task. I create one, write what I want, assign it to an Agent, and it gets going. It feels like Jira, except the worker is AI.
+- An Agent is the "person" doing the work. Each one has its own capabilities and tools — read code, search the web, run commands. I keep a few Agents around for different jobs: one for coding, one for research, one for review.
+- A Squad is a small team of Agents that handle a bigger workflow. I have a "publishing" Squad: a writing Agent drafts, a review Agent proofreads, a publishing Agent pushes to the platform. A Leader coordinates who goes first.
+- Mention is my favorite design. When I @ an Agent in a comment, it is not just a nudge — it actually triggers a run. It is the same muscle memory as @-ing a teammate in a chat, but the other side actually moves.
 
-### 2. Agent
-The Agent is the "employee" who actually does the work. Each Agent has its own identity, capabilities, and available tools (e.g., reading and writing code, calling the CLI, searching the web). You can configure different Agents for different scenarios — one that excels at coding, one focused on research, one dedicated to code review.
+## A real run, end to end
 
-### 3. Squad (Team)
-When a task needs multiple roles to coordinate, group them into a **Squad**. A Squad has a Leader that routes and assigns work; other members each have their own role. For example, "shipping a new feature" can be a Squad: a Product Agent breaks down requirements, a Dev Agent writes code, a QA Agent validates, and the Leader coordinates the order.
+Take "write a blog post about Multica" as an example. Here is what actually happened:
 
-### 4. Mention (Tagging / Scheduling)
-This is one of Multica's most interesting design choices. In an Issue comment, `@`-ing an Agent **does not just notify — it directly triggers a run**. `@`-ing a human member sends a notification; `@`-ing an Agent enqueues a new execution. That means Agents collaborate by `@`-ing each other in comments — very close to how a real human team communicates.
+1. I opened an Issue with the brief and assigned it to the writing Agent.
+2. The writing Agent read the brief, checked the repo, skimmed my previous posts to match tone, and produced a draft.
+3. I @-ed the review Agent in the comments. It checked logic and facts.
+4. The review Agent left a list of issues in the comments; the writing Agent picked them up and produced another draft.
+5. I read it, approved it, and flipped the Issue to done.
 
-## 3. How Does It Actually Run?
+In the middle steps I did basically nothing. I did not switch tabs, I did not ferry text. The Agents handed work off to each other.
 
-Here's a concrete example. Suppose you want the team to "add a blog post introducing Multica." In Multica the flow looks roughly like:
+## How it differs from AutoGen, CrewAI, and similar frameworks
 
-1. **Create an Issue**: write the requirements, assign it to a writing Agent (status set to `todo`, the Agent starts immediately).
-2. **Agent picks it up**: the Agent reads the Issue context, inspects the repo, understands the blog's format conventions, and writes the Markdown file.
-3. **Collaborative handoff**: if needed, the Agent can `@` another Agent in the comments (say, a reviewer Agent); that Agent is triggered and picks up the next step.
-4. **Delivery and closeout**: once done, the Agent replies with the result in the Issue. You review, approve, and flip the status to `done`.
+I have been asked this a few times.
 
-You only engage at the beginning (requirements) and at the end (acceptance). The execution in the middle is on the Agent team.
+Frameworks are for when you want to write the orchestration as code — when you have hard customization requirements and engineers on hand to maintain it. Multica takes a different route: it productizes all of it. Issue boards, comments, permissions, scheduling — it is all out of the box. I do not write orchestration code at all.
 
-## 4. Autopilot: Let the Process Run Itself
+For someone like me who wants to use AI without reinventing the wheel, Multica is a much more comfortable fit.
 
-Multica also supports **Autopilot**. You can attach automation rules to an Issue or Squad: e.g., "every morning at 9 a.m., check for new Issues and assign them," "when a PR is merged, auto-close the related Issue," "when a Webhook arrives, trigger a specific Agent."
+## Some honest gripes after a few months
 
-This upgrades "you watching Agents work" into "the process flows on its own" — perfect for repetitive, regular work like periodic checks, report generation, and CI/CD follow-ups.
+- A lot of tasks still take longer than I expect, because Agents sometimes have to wait on each other. If you are in a hurry, it can be slightly frustrating.
+- For really custom workflows, you end up needing a framework approach. Multica handles the 80% of common cases well.
+- Watch the billing model. Once you turn on Autopilot, the monthly bill can creep up faster than you think. I set a budget alert after the first surprise.
 
-## 5. Who Is Multica For?
+## How I am using it now
 
-- **Engineering teams**: hand off code review, bug fixes, documentation, and dependency upgrades to Agent squads, so humans can focus on architecture and decisions.
-- **Individual developers and independent creators**: even alone, you can have an "AI team" writing code, doing research, and producing content in parallel.
-- **Teams chasing automation**: use Autopilot to turn repetitive, periodic work into a fixed flow and free up human attention.
+My current pattern: the standardized stuff — weekly reports, meeting notes, draft outlines — goes to a Squad in Multica. It saves me real time. The creative, iterative work I still write a first pass myself, then let AI help me expand and revise.
 
-## 6. How Is This Different From "Multi-Agent Frameworks"?
-
-You might wonder: how is this different from AutoGen, CrewAI, and similar multi-agent frameworks?
-
-In short: **frameworks orchestrate at the code level; Multica orchestrate at the platform level.** Frameworks require you to write code defining Agents and flows; Multica turns all of that into productized capabilities — Issue boards, comments, permissions, auditing, scheduling are all out of the box. It feels closer to the project management tools you already know, except the workers are AI.
-
-The two are not in conflict. Multica fits better as the entry point for everyday team collaboration and task flow, while frameworks fit better when you need to deeply customize a specific multi-Agent algorithm.
-
-## Closing Thoughts
-
-The direction Multica represents is clear: **the next station for AI is not stronger single-point capability, but better organization and collaboration.** When Agents can be assigned tasks, form teams, and hand off work like employees, we are one step closer to "AI actually carrying sustained work."
-
-For individuals, this means **"management capability" is becoming the new core competency** — people who know how to break down tasks, define roles for Agents, and design collaboration flows can orchestrate a "silicon-based team" far beyond their own individual output. And that, perhaps, is the underlying skill of the future workplace.
+The thing I keep coming back to is this: AI does not make me better at the work itself, but it lets me spend more time on the parts I am good at. That, more than anything else, is what I took away from using Multica.

@@ -1,6 +1,10 @@
 ---
 import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
+import { useTranslatedPath } from '../i18n/utils';
+import { ui } from '../i18n/ui';
+
+type Lang = keyof typeof ui;
 
 interface Props {
   currentPost: CollectionEntry<'blog'>;
@@ -9,55 +13,68 @@ interface Props {
 
 const { currentPost, maxRelated = 3 } = Astro.props;
 
-// Get all blog posts
-const allPosts = await getCollection('blog');
+// `currentPost.id` is the rendered URL pathname (e.g. "blog/foo", "en/blog/foo",
+// "ja/blog/foo") — set in BlogPost.astro. The collection entries have their own
+// id of the form "<lang>/<slug>" (e.g. "zh/ai-workflow"). Derive the current
+// language and slug from the URL path so we can build correct translated URLs
+// and exclude the current post from the related list.
+const urlPath = currentPost.id.replace(/^\//, '').replace(/\.html$/, '').replace(/\/$/, '');
+const currentLang: Lang = urlPath.startsWith('en/')
+  ? 'en'
+  : urlPath.startsWith('ja/')
+    ? 'ja'
+    : 'zh';
+const currentSlug = urlPath.split('/').filter(Boolean).pop() ?? '';
+const translatePath = useTranslatedPath(currentLang);
 
-// Simple related posts algorithm based on category and tags
-function getRelatedPosts(currentPost: CollectionEntry<'blog'>, allPosts: CollectionEntry<'blog'>[], limit: number) {
+// Get all blog posts and filter to the current language only — the previous
+// version showed cross-language posts (e.g. an `en/` post on a `zh/` page),
+// whose hrefs also broke because they didn't include the `/blog/` prefix.
+const allPosts = (await getCollection('blog')).filter(
+  (post) => post.id.startsWith(`${currentLang}/`),
+);
+
+// Simple related posts algorithm based on category and title overlap
+function getRelatedPosts(currentPost: CollectionEntry<'blog'>, posts: CollectionEntry<'blog'>[], limit: number) {
   const currentCategory = currentPost.data.category;
   const currentTitle = currentPost.data.title.toLowerCase();
 
-  // Score each post
-  const scored = allPosts
-    .filter(post => post.id !== currentPost.id) // Exclude current post
-    .map(post => {
+  const scored = posts
+    .filter((post) => post.id !== `${currentLang}/${currentSlug}`)
+    .map((post) => {
       let score = 0;
 
-      // Same category gets high score
       if (post.data.category === currentCategory) {
         score += 10;
       }
 
-      // Check for similar words in titles
       const postTitle = post.data.title.toLowerCase();
       const currentWords = currentTitle.split(/\s+/);
       const postWords = postTitle.split(/\s+/);
 
-      const commonWords = currentWords.filter(word =>
-        word.length > 3 && postWords.some(pw => pw.includes(word) || word.includes(pw))
+      const commonWords = currentWords.filter((word) =>
+        word.length > 3 && postWords.some((pw) => pw.includes(word) || word.includes(pw)),
       );
 
       score += commonWords.length * 2;
 
       return { post, score };
     })
-    .filter(item => item.score > 0) // Only include posts with some relevance
-    .sort((a, b) => b.score - a.score) // Sort by relevance score
-    .slice(0, limit); // Take top N posts
+    .filter((item) => item.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, limit);
 
-  return scored.map(item => item.post);
+  return scored.map((item) => item.post);
 }
 
-const relatedPosts = getRelatedPosts(currentPost, allPosts, maxRelated);
+let relatedPosts = getRelatedPosts(currentPost, allPosts, maxRelated);
 
 if (relatedPosts.length === 0) {
-  // Fallback: show recent posts if no related posts found
-  const recentPosts = allPosts
-    .filter(post => post.id !== currentPost.id)
+  // Fallback: show recent same-language posts if no related posts found
+  relatedPosts = allPosts
+    .filter((post) => post.id !== `${currentLang}/${currentSlug}`)
     .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
     .slice(0, maxRelated);
-
-  relatedPosts.push(...recentPosts);
 }
 ---
 
@@ -73,8 +90,11 @@ if (relatedPosts.length === 0) {
       Related Articles
     </h2>
     <div class="related-posts-grid">
-      {relatedPosts.map((post) => (
-        <a href={`/${post.id}`} class="related-post-card">
+      {relatedPosts.map((post) => {
+        const postSlug = post.id.replace(`${currentLang}/`, '');
+        const href = translatePath(`/blog/${postSlug}`);
+        return (
+        <a href={href} class="related-post-card">
           <div class="related-post-content">
             {post.data.category && (
               <span class="related-post-category">{post.data.category}</span>
@@ -92,7 +112,8 @@ if (relatedPosts.length === 0) {
             </div>
           </div>
         </a>
-      ))}
+        );
+      })}
     </div>
   </aside>
 )}

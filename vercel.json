@@ -18,11 +18,11 @@
 		},
 		{
 			"source": "/en/blog/",
-			"destination": "/blog",
+			"destination": "/blog/",
 			"permanent": true
 		},
 		{
-			"source": "/en/blog/:slug*",
+			"source": "/en/blog/:slug(.*)",
 			"destination": "/blog/:slug",
 			"permanent": true
 		},
@@ -32,8 +32,18 @@
 			"permanent": true
 		},
 		{
+			"source": "/en/about/",
+			"destination": "/about/",
+			"permanent": true
+		},
+		{
 			"source": "/en/privacy",
 			"destination": "/privacy",
+			"permanent": true
+		},
+		{
+			"source": "/en/privacy/",
+			"destination": "/privacy/",
 			"permanent": true
 		},
 		{
@@ -53,11 +63,11 @@
 		},
 		{
 			"source": "/ja/blog/",
-			"destination": "/blog",
+			"destination": "/blog/",
 			"permanent": true
 		},
 		{
-			"source": "/ja/blog/:slug*",
+			"source": "/ja/blog/:slug(.*)",
 			"destination": "/blog/:slug",
 			"permanent": true
 		},
@@ -67,8 +77,18 @@
 			"permanent": true
 		},
 		{
+			"source": "/ja/about/",
+			"destination": "/about/",
+			"permanent": true
+		},
+		{
 			"source": "/ja/privacy",
 			"destination": "/privacy",
+			"permanent": true
+		},
+		{
+			"source": "/ja/privacy/",
+			"destination": "/privacy/",
 			"permanent": true
 		}
 	]

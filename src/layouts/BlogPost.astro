@@ -6,7 +6,6 @@ import Footer from "../components/Footer.astro";
 import FormattedDate from "../components/FormattedDate.astro";
 import Header from "../components/Header.astro";
 import RelatedPosts from "../components/RelatedPosts.astro";
-import { getLangFromUrl, useTranslations } from "../i18n/utils";
 
 type Props = CollectionEntry<"blog">["data"] & {
   slug?: string;
@@ -18,37 +17,35 @@ const {
   pubDate,
   updatedDate,
   heroImage,
-  category
+  category,
+  slug
 } = Astro.props;
 
-const lang = getLangFromUrl(Astro.url);
-const t = useTranslations(lang);
 const isBlogPost = Astro.url.pathname.includes("/blog/");
-const eyebrow = isBlogPost ? t("post.eyebrow_post") : t("post.eyebrow_page");
 
-// Get the current post for related articles
+// The current post for related articles — `slug` is the collection id
 const currentPost = {
-  id: Astro.url.pathname.replace(/^\//, "").replace(/\.html$/, ""),
+  id: slug ?? Astro.url.pathname.replace(/^\//, "").replace(/\.html$/, ""),
   data: { title, description, pubDate, category },
 } as CollectionEntry<"blog">;
 ---
 
 <!doctype html>
-<html lang={lang}>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <BaseHead title={title} description={description} />
+    <BaseHead title={title} description={description} pubDate={pubDate} category={category} heroImage={heroImage} />
     <style>
       main {
         width: min(var(--page-max), calc(100% - 2.5rem));
       }
       .post-shell {
-        background: rgba(var(--surface), 0.92);
+        background: rgb(var(--surface));
         border-radius: var(--radius-lg);
         padding: 2.5rem clamp(1.5rem, 3vw, 3rem);
         border: 1px solid var(--border);
-        box-shadow: var(--shadow);
+        box-shadow: var(--shadow-sm);
       }
       .post-header {
         text-align: left;
@@ -76,7 +73,7 @@ const currentPost = {
         max-width: var(--content-max);
         margin: 0 auto;
         color: rgb(var(--ink));
-        line-height: 1.95;
+        line-height: 1.9;
       }
       .prose :global(p) {
         margin-bottom: 2.2rem;
@@ -119,9 +116,9 @@ const currentPost = {
         justify-content: center;
         width: 40px;
         height: 40px;
-        border-radius: 999px;
+        border-radius: 10px;
         border: 1px solid var(--border);
-        background: rgba(var(--surface), 0.8);
+        background: rgb(var(--surface));
         color: rgb(var(--ink-soft));
         transition: all 0.2s var(--ease-out);
         text-decoration: none;
@@ -146,9 +143,9 @@ const currentPost = {
         border-color: #10B981;
       }
       .share-button.copy:hover {
-        background: var(--accent-strong);
+        background: var(--accent);
         color: white;
-        border-color: var(--accent-strong);
+        border-color: var(--accent);
       }
       @media (max-width: 720px) {
         .post-shell {
@@ -176,15 +173,21 @@ const currentPost = {
     <main>
       <article class="post-shell reveal">
         <header class="post-header">
-          <p class="eyebrow">{eyebrow}</p>
+          <p class="eyebrow">{isBlogPost ? "Post" : "Page"}</p>
           <h1>{title}</h1>
           <p class="lead">{description}</p>
           <div class="post-meta">
-            <span>{t("post.published_at")} <FormattedDate date={pubDate} /></span>
+            {
+              pubDate && (
+                <span>
+                  Published <FormattedDate date={pubDate} />
+                </span>
+              )
+            }
             {
               updatedDate && (
                 <span class="updated">
-                  {t("post.updated_at")} <FormattedDate date={updatedDate} />
+                  Updated <FormattedDate date={updatedDate} />
                 </span>
               )
             }

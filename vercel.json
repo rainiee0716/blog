@@ -1,0 +1,75 @@
+{
+	"$schema": "https://openapi.vercel.sh/vercel.json",
+	"redirects": [
+		{
+			"source": "/en",
+			"destination": "/",
+			"permanent": true
+		},
+		{
+			"source": "/en/",
+			"destination": "/",
+			"permanent": true
+		},
+		{
+			"source": "/en/blog",
+			"destination": "/blog",
+			"permanent": true
+		},
+		{
+			"source": "/en/blog/",
+			"destination": "/blog",
+			"permanent": true
+		},
+		{
+			"source": "/en/blog/:slug*",
+			"destination": "/blog/:slug",
+			"permanent": true
+		},
+		{
+			"source": "/en/about",
+			"destination": "/about",
+			"permanent": true
+		},
+		{
+			"source": "/en/privacy",
+			"destination": "/privacy",
+			"permanent": true
+		},
+		{
+			"source": "/ja",
+			"destination": "/",
+			"permanent": true
+		},
+		{
+			"source": "/ja/",
+			"destination": "/",
+			"permanent": true
+		},
+		{
+			"source": "/ja/blog",
+			"destination": "/blog",
+			"permanent": true
+		},
+		{
+			"source": "/ja/blog/",
+			"destination": "/blog",
+			"permanent": true
+		},
+		{
+			"source": "/ja/blog/:slug*",
+			"destination": "/blog/:slug",
+			"permanent": true
+		},
+		{
+			"source": "/ja/about",
+			"destination": "/about",
+			"permanent": true
+		},
+		{
+			"source": "/ja/privacy",
+			"destination": "/privacy",
+			"permanent": true
+		}
+	]
+}

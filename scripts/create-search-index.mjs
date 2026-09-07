@@ -13,7 +13,7 @@ export default async function createSearchIndex() {
 
     const searchIndex = allPosts.map(post => ({
       id: post.id,
-      url: `/${post.id}`,
+      url: `/blog/${post.id}/`,
       title: post.data.title,
       description: post.data.description,
       category: post.data.category || '',

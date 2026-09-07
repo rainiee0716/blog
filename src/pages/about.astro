@@ -1,19 +1,24 @@
 ---
 import AboutHeroImage from '../assets/blog-placeholder-about.jpg';
 import Layout from '../layouts/BlogPost.astro';
-import { getLangFromUrl, useTranslations } from '../i18n/utils';
-
-const lang = getLangFromUrl(Astro.url);
-const t = useTranslations(lang);
 ---
 
 <Layout
-	title={t('about.title')}
-	description={t('about.description')}
+	title="About"
+	description="A practitioner focused on turning AI into productivity."
 	pubDate={new Date('2026-01-20')}
 	heroImage={AboutHeroImage}
 >
-	<p>{t('about.content1')}</p>
-	<p>{t('about.content2')}</p>
-	<p>{t('about.content3')}</p>
+	<p>
+		I'm a practitioner focused on efficiency and collaboration, with a long-term interest in AI,
+		product thinking, and career growth.
+	</p>
+	<p>
+		This blog records my real-world practices: experiments I've run, pitfalls I've hit, and
+		methodologies distilled from retrospectives.
+	</p>
+	<p>
+		If you're also exploring how to fold AI into daily work, or looking for a clearer career
+		path, I'd love to hear from you — the email is in the site header and footer.
+	</p>
 </Layout>

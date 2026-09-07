@@ -1,13 +1,47 @@
 ---
 import Layout from '../layouts/BlogPost.astro';
-import { getLangFromUrl, useTranslations } from '../i18n/utils';
-
-const lang = getLangFromUrl(Astro.url);
-const t = useTranslations(lang);
 ---
 
-<Layout title={t('privacy.title')} description={t('privacy.description')} pubDate={new Date('2026-01-20')}>
-	<p>{t('privacy.content1')}</p>
-	<p>{t('privacy.content2')}</p>
-	<p>{t('privacy.content3')}</p>
+<Layout title="Privacy Policy" description="How this website handles data and privacy" pubDate={new Date('2026-01-20')}>
+	<p>
+		This site uses Google Analytics (gtag.js, ID G-XDK8RXWSLW) to understand traffic and reader
+		trends. No personally identifiable information is actively collected.
+	</p>
+	<p>
+		This site displays content-relevant ads through Google AdSense (publisher ID
+		pub-2275368667168938). AdSense and its partners use cookies to serve ads. You can opt out
+		of personalized ads at https://adssettings.google.com.
+	</p>
+	<p>
+		Third-party vendors and data use: apart from the Google services above, this site runs no
+		other analytics or advertising scripts. When serving ads, Google and its partners may use
+		cookies, web beacons, and IP addresses to measure ad performance and — where permitted by
+		law and unless you opt out — to show personalized ads based on your visits to this and
+		other sites.
+	</p>
+	<p>
+		Controlling cookies: you can disable or delete cookies at any time in your browser
+		settings; the site remains fully browsable, though ads may become less relevant. You can
+		manage personalized ads at https://adssettings.google.com, and manage third-party vendor
+		choices at https://www.aboutads.info/choices or https://www.youronlinechoices.com.
+	</p>
+	<p>
+		EEA and UK visitors: where required by law, this site asks for your consent before showing
+		personalized ads. You can change or withdraw your choice at any time via the consent
+		banner.
+	</p>
+	<p>
+		Data retention: Google Analytics data is retained according to Google's default retention
+		period (typically up to 14 months). This site does not store additional access logs
+		server-side.
+	</p>
+	<p>
+		This site is written for adult professionals, is not directed at children, and does not
+		knowingly collect information from children. If this policy changes materially, it will be
+		updated on this page with a revised date.
+	</p>
+	<p>
+		This site does not sell your personal information. To request deletion or correction,
+		please contact me using the email listed in the site header.
+	</p>
 </Layout>

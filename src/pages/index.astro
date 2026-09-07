@@ -1,122 +1,276 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
+import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
-import { getLangFromUrl, useTranslations, useTranslatedPath } from '../i18n/utils';
 
-const lang = getLangFromUrl(Astro.url);
-const t = useTranslations(lang);
-const translatePath = useTranslatedPath(lang);
+const latestPosts = (await getCollection('blog'))
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+	.slice(0, 3);
+
+const totalPosts = (await getCollection('blog')).length;
 ---
 
 <!doctype html>
-<html lang={lang}>
+<html lang="en">
 	<head>
-		<BaseHead title={t('site.title')} description={t('site.description')} />
+		<BaseHead
+			title="Rainiee | Career & AI Notes"
+			description="Real-world practices of AI learning, career growth, and efficiency methods."
+		/>
+	</head>
+	<body>
+		<Header />
+
+		<section class="hero-band section-dark">
+			<div class="hero-grid" aria-hidden="true"></div>
+			<div class="hero-inner">
+				<p class="eyebrow reveal">Career · AI · Growth</p>
+				<h1 class="reveal" style="--delay: 80ms">
+					Practical notes on AI,<br />career, and getting things done
+				</h1>
+				<p class="lead reveal" style="--delay: 160ms">
+					I write about turning AI into a reliable teammate, building a durable career,
+					and the workflows that survived contact with real work.
+				</p>
+				<div class="hero-actions reveal" style="--delay: 240ms">
+					<a class="button" href="/blog">Read the blog</a>
+					<a class="button button-ghost" href="/about">About me</a>
+				</div>
+				<div class="hero-stats reveal" style="--delay: 320ms">
+					<div class="stat">
+						<span class="stat-value">{totalPosts}</span>
+						<span class="stat-label">in-depth essays</span>
+					</div>
+					<div class="stat">
+						<span class="stat-value">AI · Work</span>
+						<span class="stat-label">core topics</span>
+					</div>
+					<div class="stat">
+						<span class="stat-value">No fluff</span>
+						<span class="stat-label">field-tested only</span>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<main>
+			<section class="latest">
+				<div class="section-head reveal">
+					<h2>Latest posts</h2>
+					<a class="section-link" href="/blog">View all →</a>
+				</div>
+				<div class="post-grid">
+					{
+						latestPosts.map((post, index) => (
+							<a class="card post-card reveal" style={`--delay: ${index * 80}ms;`} href={`/blog/${post.id}/`}>
+								{post.data.category && <span class="chip">{post.data.category}</span>}
+								<h3 class="post-card-title">{post.data.title}</h3>
+								<p class="post-card-desc">{post.data.description}</p>
+								<p class="post-card-meta"><FormattedDate date={post.data.pubDate} /></p>
+							</a>
+						))
+					}
+				</div>
+			</section>
+
+			<section class="focus reveal">
+				<div class="card focus-card">
+					<h2>What I focus on</h2>
+					<p class="lead">
+						Career strategy and AI tools aren't alternatives. I care about how they combine
+						into a growth system you can actually repeat.
+					</p>
+					<div class="focus-list">
+						<span class="chip">AI assistants & automation</span>
+						<span class="chip">Career path design</span>
+						<span class="chip">Communication</span>
+						<span class="chip">Cross-team collaboration</span>
+						<span class="chip">Personal knowledge bases</span>
+						<span class="chip">Goals & retrospectives</span>
+					</div>
+				</div>
+				<div class="card focus-card">
+					<h2>Writing principles</h2>
+					<p class="lead">
+						Every post includes real cases, actionable checklists, and templates you can
+						use the same day you read them.
+					</p>
+					<p class="principles-footer">
+						If that sounds useful, start with any topic on the <a href="/blog">blog</a>.
+					</p>
+				</div>
+			</section>
+		</main>
+
+		<Footer />
+
 		<style>
-			.hero {
-				display: grid;
-				gap: 1.5rem;
-				padding: 2.5rem;
-				border-radius: var(--radius-lg);
-				background: rgba(var(--surface), 0.92);
-				border: 1px solid var(--border);
-				box-shadow: var(--shadow);
+			.hero-band {
+				position: relative;
+				overflow: hidden;
+				padding: 6rem 1.5rem 5.5rem;
 			}
+
+			.hero-grid {
+				position: absolute;
+				inset: 0;
+				background-image:
+					linear-gradient(rgba(226, 232, 240, 0.05) 1px, transparent 1px),
+					linear-gradient(90deg, rgba(226, 232, 240, 0.05) 1px, transparent 1px);
+				background-size: 52px 52px;
+				mask-image: radial-gradient(720px 420px at 50% 40%, #000 30%, transparent 75%);
+				-webkit-mask-image: radial-gradient(720px 420px at 50% 40%, #000 30%, transparent 75%);
+				pointer-events: none;
+			}
+
+			.hero-inner {
+				position: relative;
+				width: min(var(--page-max), 100%);
+				margin: 0 auto;
+				max-width: 780px;
+				text-align: center;
+			}
+
+			.hero-inner h1 {
+				font-size: clamp(2.3rem, 5vw, 3.4rem);
+				line-height: 1.12;
+				margin-bottom: 1.2rem;
+			}
+
+			.hero-inner .lead {
+				font-size: 1.18rem;
+				max-width: 58ch;
+				margin: 0 auto 2rem;
+			}
+
 			.hero-actions {
 				display: flex;
-				gap: 1rem;
+				gap: 0.9rem;
+				flex-wrap: wrap;
+				justify-content: center;
+				margin-bottom: 3.2rem;
+			}
+
+			.hero-stats {
+				display: flex;
+				gap: 3rem;
+				justify-content: center;
 				flex-wrap: wrap;
 			}
-			.highlight-grid {
+
+			.stat {
+				display: flex;
+				flex-direction: column;
+				gap: 0.2rem;
+			}
+
+			.stat-value {
+				font-size: 1.3rem;
+				font-weight: 700;
+				color: #f8fafc;
+				letter-spacing: -0.01em;
+			}
+
+			.stat-label {
+				font-size: 0.8rem;
+				color: rgb(var(--hero-ink-soft));
+				letter-spacing: 0.08em;
+				text-transform: uppercase;
+			}
+
+			.latest {
+				margin-top: 3.5rem;
+			}
+
+			.section-head {
+				display: flex;
+				align-items: baseline;
+				justify-content: space-between;
+				gap: 1rem;
+				margin-bottom: 1.5rem;
+			}
+
+			.section-link {
+				font-weight: 600;
+				font-size: 0.95rem;
+				white-space: nowrap;
+			}
+
+			.post-grid {
 				display: grid;
 				grid-template-columns: repeat(3, minmax(0, 1fr));
 				gap: 1.5rem;
-				margin-top: 2.5rem;
 			}
-			.highlight-grid .card h3 {
-				margin-bottom: 0.6rem;
+
+			.post-card {
+				display: flex;
+				flex-direction: column;
+				gap: 0.7rem;
 			}
+
+			.post-card-title {
+				font-size: 1.15rem;
+				line-height: 1.35;
+				margin: 0;
+			}
+
+			.post-card-desc {
+				color: rgb(var(--ink-soft));
+				font-size: 0.92rem;
+				line-height: 1.6;
+				margin: 0;
+				display: -webkit-box;
+				-webkit-line-clamp: 3;
+				-webkit-box-orient: vertical;
+				overflow: hidden;
+				flex: 1;
+			}
+
+			.post-card-meta {
+				color: rgb(var(--ink-soft));
+				font-size: 0.82rem;
+				margin: 0;
+			}
+
 			.focus {
-				margin-top: 2.5rem;
+				margin-top: 3.5rem;
 				display: grid;
 				grid-template-columns: 1.2fr 1fr;
 				gap: 1.5rem;
 			}
+
+			.focus-card h2 {
+				font-size: 1.45rem;
+				margin-bottom: 0.8rem;
+			}
+
 			.focus-list {
 				display: flex;
 				flex-wrap: wrap;
-				gap: 0.75rem;
-				margin-top: 1rem;
+				gap: 0.6rem;
+				margin-top: 1.2rem;
 			}
+
+			.principles-footer {
+				color: rgb(var(--ink-soft));
+				margin: 0;
+			}
+
 			@media (max-width: 900px) {
-				.highlight-grid {
+				.post-grid {
 					grid-template-columns: 1fr;
 				}
+
 				.focus {
 					grid-template-columns: 1fr;
 				}
+
+				.hero-stats {
+					gap: 1.8rem;
+				}
 			}
-
-			</style>
-	</head>
-	<body>
-		<Header />
-		<main>
-			<section class="hero reveal">
-				<p class="eyebrow">{t('home.eyebrow')}</p>
-				<h1>{t('home.hero_title')}</h1>
-				<p class="lead">
-					{t('home.hero_lead')}
-				</p>
-				<div class="hero-actions">
-					<a class="button" href={translatePath('/blog')}>{t('home.hero_cta_blog')}</a>
-					<a class="button button-ghost" href={translatePath('/about')}>{t('home.hero_cta_about')}</a>
-				</div>
-			</section>
-
-			<section class="highlight-grid">
-				<article class="card reveal" style="--delay: 80ms;">
-					<p class="chip">{t('home.card1_chip')}</p>
-					<h3>{t('home.card1_title')}</h3>
-					<p class="lead">{t('home.card1_lead')}</p>
-				</article>
-				<article class="card reveal" style="--delay: 160ms;">
-					<p class="chip">{t('home.card2_chip')}</p>
-					<h3>{t('home.card2_title')}</h3>
-					<p class="lead">{t('home.card2_lead')}</p>
-				</article>
-				<article class="card reveal" style="--delay: 240ms;">
-					<p class="chip">{t('home.card3_chip')}</p>
-					<h3>{t('home.card3_title')}</h3>
-					<p class="lead">{t('home.card3_lead')}</p>
-				</article>
-			</section>
-
-			<section class="focus">
-				<div class="card reveal" style="--delay: 320ms;">
-					<h2>{t('home.focus_title')}</h2>
-					<p class="lead">
-						{t('home.focus_lead')}
-					</p>
-					<div class="focus-list">
-						<span class="chip">{t('home.focus_item1')}</span>
-						<span class="chip">{t('home.focus_item2')}</span>
-						<span class="chip">{t('home.focus_item3')}</span>
-						<span class="chip">{t('home.focus_item4')}</span>
-						<span class="chip">{t('home.focus_item5')}</span>
-						<span class="chip">{t('home.focus_item6')}</span>
-					</div>
-				</div>
-				<div class="card reveal" style="--delay: 400ms;">
-					<h2>{t('home.principles_title')}</h2>
-					<p class="lead">
-						{t('home.principles_lead')}
-					</p>
-					<p>{t('home.principles_footer')}</p>
-				</div>
-			</section>
-		</main>
-		<Footer />
+		</style>
 	</body>
 </html>

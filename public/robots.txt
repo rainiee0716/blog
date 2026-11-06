@@ -14,22 +14,9 @@ Allow: /
 User-agent: Bingbot
 Allow: /
 
+# AI crawlers are welcome (GPTBot, ClaudeBot, PerplexityBot, CCBot, etc.)
+# No disallow rules — AI search engines and assistants may crawl and cite this site.
+
 # Sitemap locations
 Sitemap: https://www.rainiee.cn/sitemap-index.xml
 Sitemap: https://www.rainiee.cn/rss.xml
-
-# Additional instructions for specific AI crawlers
-User-agent: ChatGPT-User
-Disallow: /
-
-User-agent: GPTBot
-Disallow: /
-
-User-agent: CCbot
-Disallow: /
-
-User-agent: anthropic-ai
-Disallow: /
-
-User-agent: Claude-Web
-Disallow: /
